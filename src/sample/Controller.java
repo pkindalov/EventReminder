@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,27 +51,51 @@ public class Controller {
 
     }
 
-    private void write(String fileName, String textForSave, String date) {
+    private void write(String fileName, String textForSave, String date) throws IOException {
 
-        Map<String, Serializable> dateEvent = new HashMap<>();
+        Map dateEvent = new HashMap<>();
+        Map<String, String> events = new HashMap<String, String>();
+        Properties properties = new Properties();
 
-        if(!dateEvent.containsKey(date)){
-            dateEvent.put(date, textForSave);
+        if(!events.containsKey(date)){
+            events.put(date, textForSave);
         }else {
-            dateEvent.put(date, textForSave);
+            events.put(date, textForSave);
         }
 
-
-        try(FileOutputStream fos = new FileOutputStream(fileName, true);
-            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-
-            oos.writeObject(dateEvent);
-            oos.close();
-            fos.close();
-
-        } catch (IOException e) {
-            reminderMessage.setText(e.getMessage());
+        for (Map.Entry<String, String> entry : events.entrySet()) {
+            properties.put(entry.getKey(), entry.getValue());
         }
+
+        properties.store(new FileOutputStream(fileName, true), null);
+
+
+
+//        if(!dateEvent.containsKey(date)){
+//            dateEvent.put(date, textForSave);
+//        }else {
+//            dateEvent.put(date, textForSave);
+//        }
+
+
+//        try(FileOutputStream fos = new FileOutputStream(fileName, true);
+//            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+//
+//            ObjectOutputStream os2 = new ObjectOutputStream(new FileOutputStream(String.valueOf(fileName), true)) {
+//                protected void writeStreamHeader() throws IOException {
+//                    reset();
+//                }
+//            };
+//
+////            oos.writeObject(dateEvent);
+//            os2.writeObject(dateEvent);
+//            os2.close();
+//            oos.close();
+//            fos.close();
+//
+//        } catch (IOException e) {
+//            reminderMessage.setText(e.getMessage());
+//        }
 
 //        for (String s : dateEvent.keySet()) {
 //            reminderMessage.setText("Date: " + "\n" + s + "Reminder: " + "\n" + dateEvent.get(s));
@@ -130,7 +155,8 @@ public class Controller {
 
 
 
-    public void searchForEvent(ActionEvent actionEvent) {
+    public void searchForEvent(ActionEvent actionEvent) throws IOException {
+
 
         FileChooser ch = new FileChooser();
         File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
@@ -139,28 +165,52 @@ public class Controller {
         Date today = new Date();
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
         String todayDate = date_format.format(today);
-        Map<String, Serializable> dateEvent = null;
+        Map dateEvent = new HashMap();
 
-        try(FileInputStream fis = new FileInputStream(selectedFile);
-        ObjectInputStream ois = new ObjectInputStream(fis)) {
+        Map<String, String> events = new HashMap<String, String>();
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(selectedFile));
 
-            dateEvent = (HashMap)ois.readObject();
-
-
-        } catch (IOException e) {
-            reminderMessage.setText(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            reminderMessage.setText(e.getMessage());
+        for (String key : properties.stringPropertyNames()) {
+            events.put(key, properties.get(key).toString());
         }
 
-        searchInMapForEvent(searchingDate, todayDate, dateEvent);
+        searchInMapForEvent(searchingDate, todayDate, events);
+        searchInMapForEvent(todayDate, todayDate, events);
 
-        searchInMapForEvent(todayDate, todayDate, dateEvent);
+//
+//            searchInMapForEvent(todayDate, todayDate, dateEvent);
+
+//        reminderMessage.setText(String.valueOf(events));
+
+
+//        try(FileInputStream fis = new FileInputStream(selectedFile);
+//        ObjectInputStream ois = new ObjectInputStream(fis)) {
+//
+//
+//
+//
+//            dateEvent = (Map)ois.readObject();
+//
+//            searchInMapForEvent(searchingDate, todayDate, dateEvent);
+//
+//            searchInMapForEvent(todayDate, todayDate, dateEvent);
+//
+//
+//
+//        } catch (IOException e) {
+//            reminderMessage.setText(e.getMessage());
+//        } catch (ClassNotFoundException e) {
+//            reminderMessage.setText(e.getMessage());
+//        }
+//
+//
+//        reminderMessage.setText(String.valueOf(dateEvent));
 
 
     }
 
-    private void searchInMapForEvent(String searchingDate, String todayDate, Map<String, Serializable> dateEvent) {
+    private void searchInMapForEvent(String searchingDate, String todayDate, Map<String, String> dateEvent) {
         if(dateEvent.containsKey(searchingDate)){
             reminderMessage.setText("You have event for this day: \n");
             reminderMessage.appendText(searchingDate + "\n");
@@ -169,3 +219,10 @@ public class Controller {
         }
     }
 }
+
+
+
+
+
+
+
