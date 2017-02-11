@@ -11,5 +11,6 @@
       <TextArea fx:id="reminderMessage" layoutX="35.0" layoutY="71.0" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
       <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="35.0" layoutY="282.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
       <Button fx:id="searchEvent" layoutX="105.0" layoutY="282.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
+      <TextArea fx:id="showMeEvents" layoutX="248.0" layoutY="38.0" prefHeight="232.0" prefWidth="336.0" promptText="No events" wrapText="true" />
    </children>
 </AnchorPane>
