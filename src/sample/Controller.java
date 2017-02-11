@@ -177,7 +177,7 @@ public class Controller {
         }
 
         searchInMapForEvent(searchingDate, todayDate, events);
-        searchInMapForEvent(todayDate, todayDate, events);
+        searchInMapForEventToday(todayDate, todayDate, events);
 
 //
 //            searchInMapForEvent(todayDate, todayDate, dateEvent);
@@ -213,13 +213,24 @@ public class Controller {
 
     private void searchInMapForEvent(String searchingDate, String todayDate, Map<String, String> dateEvent) {
         if(dateEvent.containsKey(searchingDate)){
-            showMeEvents.appendText("You have event for this day: \n");
-            showMeEvents.appendText(searchingDate + "\n");
-            showMeEvents.appendText(todayDate);
-            showMeEvents.appendText((String) dateEvent.get(searchingDate));
+            showMeEvents.appendText("You have event for this day: " + searchingDate + "\n");
+//            showMeEvents.appendText("Today " +todayDate + " your event:\n");
+            showMeEvents.appendText((String) dateEvent.get(searchingDate) + "\n\n");
+        }
+    }
+
+
+    private void searchInMapForEventToday(String today, String todayDate, Map<String, String> dateEvent) {
+        if(dateEvent.containsKey(today)){
+            showMeEvents.appendText("Events for today: " + today + "\n");
+//            showMeEvents.appendText("Today " +todayDate + " your event:\n");
+            showMeEvents.appendText((String) dateEvent.get(today) + "\n\n");
         }
     }
 }
+
+
+
 
 
 
