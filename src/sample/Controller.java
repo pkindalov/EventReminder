@@ -22,7 +22,8 @@ public class Controller {
     public DatePicker datePick;
     public TextArea reminderMessage;
     public Button btnWriteOnFile;
-
+    public TextArea showMeEvents;
+    public Button searchEvent;
 
 
     public void writeOnFile(ActionEvent actionEvent) {
@@ -212,10 +213,10 @@ public class Controller {
 
     private void searchInMapForEvent(String searchingDate, String todayDate, Map<String, String> dateEvent) {
         if(dateEvent.containsKey(searchingDate)){
-            reminderMessage.setText("You have event for this day: \n");
-            reminderMessage.appendText(searchingDate + "\n");
-            reminderMessage.appendText(todayDate);
-            reminderMessage.appendText((String) dateEvent.get(searchingDate));
+            showMeEvents.appendText("You have event for this day: \n");
+            showMeEvents.appendText(searchingDate + "\n");
+            showMeEvents.appendText(todayDate);
+            showMeEvents.appendText((String) dateEvent.get(searchingDate));
         }
     }
 }
