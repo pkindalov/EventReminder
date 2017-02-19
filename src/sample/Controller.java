@@ -89,7 +89,7 @@ public class Controller {
 
 
         }catch (Exception e){
-            reminderMessage.setText(e.getMessage());
+            lblStatus.setText(e.getMessage());
         }
 
     }
@@ -175,6 +175,9 @@ public class Controller {
                 text += '\n';
                 line = br.readLine();
             }
+
+            br.close();
+            lblStatus.setText("Database loaded successfully");
 //            for (int i = 0; (line = br.readLine()) != null ; i++) {
 
 //                if(i % 2 == 0){
@@ -199,7 +202,7 @@ public class Controller {
 
 
         }catch (Exception e){
-            reminderMessage.setText(e.getMessage());
+            lblStatus.setText(e.getMessage());
         }
 
     }
@@ -230,7 +233,7 @@ public class Controller {
             dateStr = localDate.toString();
             return dateStr;
         }catch (Exception e){
-            reminderMessage.setText(e.getMessage());
+            lblStatus.setText(e.getMessage());
         }
 
         return dateStr;
@@ -244,7 +247,7 @@ public class Controller {
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
         }catch (Exception e){
-            reminderMessage.setText(e.getMessage());
+            lblStatus.setText(e.getMessage());
         }
 
         //        reminderMessage.setText(localDate + "\n" + instant + "\n" + date);
@@ -263,26 +266,35 @@ public class Controller {
         searchingDate = getDateStr(datePick);
          List<String> datesAndEvents = Arrays.asList(text.split("\n"));
 
-        for (int i = 0; i < datesAndEvents.size(); i++) {
-            if(i % 2 == 0){
+         try{
+             for (int i = 0; i < datesAndEvents.size(); i++) {
+                 if(i % 2 == 0){
 //                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
 //                showMeEvents.appendText("Events for " + searchingDate + "\n");
-                if(datesAndEvents.get(i).equals(searchingDate)){
-                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
+                     if(datesAndEvents.get(i).equals(searchingDate)){
+                         showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
 //                    eventForDay.add(datesAndEvents.get(i + 1));
-                }
+                     }
 
 //                showMeEvents.appendText("\nToday you have following events: \n");
 //                if(datesAndEvents.get(i).equals(todayDate)){
 ////                    todayEvents.add(datesAndEvents.get(i + 1));
 //                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
 //                }
-            }
+                 }
 
-        }
+             }
 
 
+             if(!showMeEvents.getText().isEmpty()){
+                 lblStatus.setText("Events fonded");
+             }else {
+                 lblStatus.setText("Nothing found");
+             }
 
+         }catch (Exception e){
+             lblStatus.setText("You must first load base from button Load Database");
+         }
 
 
 
