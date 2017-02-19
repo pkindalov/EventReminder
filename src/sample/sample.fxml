@@ -7,10 +7,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <DatePicker fx:id="datePick" layoutX="36.0" layoutY="39.0" onAction="#getDate" promptText="Choose Date" />
-      <TextArea fx:id="reminderMessage" layoutX="35.0" layoutY="71.0" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
-      <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="35.0" layoutY="282.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
-      <Button fx:id="searchEvent" layoutX="105.0" layoutY="282.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
-      <TextArea fx:id="showMeEvents" layoutX="248.0" layoutY="38.0" prefHeight="232.0" prefWidth="336.0" promptText="No events" wrapText="true" />
+      <DatePicker fx:id="datePick" layoutX="36.0" layoutY="54.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" promptText="Choose Date" showWeekNumbers="true" />
+      <TextArea fx:id="reminderMessage" layoutX="35.0" layoutY="86.0" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
+      <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="35.0" layoutY="297.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
+      <Button fx:id="searchEvent" layoutX="105.0" layoutY="297.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
+      <TextArea fx:id="showMeEvents" layoutX="294.0" layoutY="53.0" prefHeight="232.0" prefWidth="290.0" promptText="No events" wrapText="true" />
+      <Button fx:id="loadDatabase" layoutX="35.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadDatabase" prefWidth="198.0" text="Load Database" />
+      <Button fx:id="moveTextLeft" layoutX="245.0" layoutY="112.0" mnemonicParsing="false" onAction="#moveTextLeft" prefHeight="26.0" prefWidth="39.0" text="&lt;-" />
+      <Button fx:id="showAllNotes" layoutX="294.0" layoutY="297.0" mnemonicParsing="false" onAction="#showAllNotes" text="Show All Notes" />
    </children>
 </AnchorPane>
