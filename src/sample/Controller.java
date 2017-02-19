@@ -33,6 +33,7 @@ public class Controller {
     public String todayDate;
     public Button moveTextLeft;
     public Button showAllNotes;
+    public Label lblStatus;
     Multimap<String, List<String>> database;
     List<String> eventForDay = new ArrayList<>();
     List<String> todayEvents = new ArrayList<>();
@@ -52,9 +53,10 @@ public class Controller {
             File selectedFile = ch.showSaveDialog(((Button)actionEvent.getSource()).getScene().getWindow());
             String fileName = catcOnlyFileName(selectedFile.toString());
             write(selectedFile.toString(), message, date);
+            lblStatus.setText("File Saved successfull");
 
         }catch (Exception e){
-            reminderMessage.setText(e.getMessage());
+            lblStatus.setText(e.getMessage());
         }
 
 
