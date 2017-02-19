@@ -48,16 +48,25 @@ public class Controller {
             reminderMessage.setText("First choose date from datepicker");
         }
 
+        FileChooser ch = new FileChooser();
+        File selectedFile = ch.showSaveDialog(((Button)actionEvent.getSource()).getScene().getWindow());
 
         try{
-            FileChooser ch = new FileChooser();
-            File selectedFile = ch.showSaveDialog(((Button)actionEvent.getSource()).getScene().getWindow());
+
             String fileName = catcOnlyFileName(selectedFile.toString());
             write(selectedFile.toString(), message, date);
             lblStatus.setText("File Saved successfull");
 
         }catch (Exception e){
             lblStatus.setText(e.getMessage());
+        }
+
+
+        try{
+            load(selectedFile);
+            lblStatus.setText("Base loaded successfully");
+        }catch (Exception ex){
+            lblStatus.setText(ex.getMessage());
         }
 
 
@@ -108,7 +117,7 @@ public class Controller {
         searchingDate = getDateStr(datePick);
 
 
-        load(todayDate, searchingDate, selectedFile);
+        load(selectedFile);
 //
 //
 //        try(BufferedReader br = new BufferedReader(new FileReader(selectedFile))){
@@ -163,7 +172,7 @@ public class Controller {
 
     }
 
-    private void load(String todayDate, String searchingDate, File selectedFile) {
+    private void load(File selectedFile) {
 
         text = "";
 
