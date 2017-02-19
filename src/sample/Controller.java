@@ -283,7 +283,7 @@ public class Controller {
 //                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
 //                showMeEvents.appendText("Events for " + searchingDate + "\n");
                      if(datesAndEvents.get(i).equals(searchingDate)){
-                         showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
+                         showMeEvents.appendText("-" + datesAndEvents.get(i + 1) + "\n\n");
 //                    eventForDay.add(datesAndEvents.get(i + 1));
                      }
 
