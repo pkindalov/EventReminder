@@ -3,6 +3,7 @@ package sample;
 import com.google.common.collect.Multimap;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
@@ -437,7 +438,7 @@ public class Controller {
     public void clearTextFields(){
         showMeEvents.clear();
         reminderMessage.clear();
-        datePick.setStyle("-fx-background-color: #6495ED");
+//        datePick.setStyle("-fx-background-color: #6495ED");
     }
 
 
@@ -538,6 +539,10 @@ public class Controller {
             return true;
         }
         return false;
+    }
+
+    public void statusClear(MouseEvent mouseEvent) {
+        lblStatus.setText("");
     }
 }
 
