@@ -71,7 +71,7 @@ public class Controller {
 
 
         try(FileOutputStream fos = new FileOutputStream(fileName, true);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"))){
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, "UTF8"))){
 
 
             for (char c : date.toCharArray()) {
@@ -166,7 +166,8 @@ public class Controller {
 
         text = "";
 
-        try(BufferedReader br = new BufferedReader(new FileReader(selectedFile))){
+
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile), "UTF8"))){
 
 
             String line = br.readLine();
