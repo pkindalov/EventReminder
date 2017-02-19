@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <DatePicker fx:id="datePick" layoutX="36.0" layoutY="54.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" promptText="Choose Date" showWeekNumbers="true" />
+      <DatePicker fx:id="datePick" layoutX="36.0" layoutY="54.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" onMouseEntered="#statusClear" promptText="Choose Date" showWeekNumbers="true" />
       <TextArea fx:id="reminderMessage" layoutX="35.0" layoutY="86.0" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
       <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="35.0" layoutY="297.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
       <Button fx:id="searchEvent" layoutX="105.0" layoutY="297.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
