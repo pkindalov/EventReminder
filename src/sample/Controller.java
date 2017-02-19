@@ -1,22 +1,23 @@
 package sample;
 
+import com.google.common.collect.Multimap;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+
 
 public class Controller {
     public DatePicker datePick;
@@ -24,6 +25,18 @@ public class Controller {
     public Button btnWriteOnFile;
     public TextArea showMeEvents;
     public Button searchEvent;
+    public Map<String, List<String>> events = new HashMap<>();
+    public List<String> dates = new ArrayList<>();
+    public List<List<String>> reminders = new ArrayList<>();
+    public Button loadDatabase;
+    public String searchingDate;
+    public String todayDate;
+    public Button moveTextLeft;
+    public Button showAllNotes;
+    Multimap<String, List<String>> database;
+    List<String> eventForDay = new ArrayList<>();
+    List<String> todayEvents = new ArrayList<>();
+    String text = "";
 
 
     public void writeOnFile(ActionEvent actionEvent) {
@@ -54,58 +67,141 @@ public class Controller {
 
     private void write(String fileName, String textForSave, String date) throws IOException {
 
-        Map dateEvent = new HashMap<>();
-        Map<String, String> events = new HashMap<String, String>();
-        Properties properties = new Properties();
 
-        if(!events.containsKey(date)){
-            events.put(date, textForSave);
-        }else {
-            events.put(date, textForSave);
+        try(FileOutputStream fos = new FileOutputStream(fileName, true);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"))){
+
+
+            for (char c : date.toCharArray()) {
+                bw.write(c);
+            }
+            bw.newLine();
+
+            for (char c : textForSave.toCharArray()) {
+                bw.write(c);
+            }
+            bw.newLine();
+
+            bw.close();
+            fos.close();
+
+
+        }catch (Exception e){
+            reminderMessage.setText(e.getMessage());
         }
 
-        for (Map.Entry<String, String> entry : events.entrySet()) {
-            properties.put(entry.getKey(), entry.getValue());
-        }
-
-        properties.store(new FileOutputStream(fileName, true), null);
+    }
 
 
-
-//        if(!dateEvent.containsKey(date)){
-//            dateEvent.put(date, textForSave);
-//        }else {
-//            dateEvent.put(date, textForSave);
-//        }
+    public void loadDatabase(ActionEvent actionEvent) throws IOException {
 
 
-//        try(FileOutputStream fos = new FileOutputStream(fileName, true);
-//            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+        FileChooser ch = new FileChooser();
+        File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
+
+        Date today = new Date();
+        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+        todayDate = date_format.format(today);
+        searchingDate = getDateStr(datePick);
+
+
+        load(todayDate, searchingDate, selectedFile);
 //
-//            ObjectOutputStream os2 = new ObjectOutputStream(new FileOutputStream(String.valueOf(fileName), true)) {
-//                protected void writeStreamHeader() throws IOException {
-//                    reset();
+//
+//        try(BufferedReader br = new BufferedReader(new FileReader(selectedFile))){
+//
+//            String line;
+//            for (int i = 0; (line = br.readLine()) != null ; i++) {
+//                if(i % 2 == 0){
+////                    showMeEvents.appendText(line + "\n");
+//                    if (line.equals(searchingDate)){
+//                        line = br.readLine();
+//                        eventForDay.add(line);
+//                        i++;
+//                    }
+//
+//                    if(line.equals(todayDate)){
+//                        line = br.readLine();
+//                        todayEvents.add(line);
+//                        i++;
+//                    }
+//
 //                }
-//            };
+//            }
 //
-////            oos.writeObject(dateEvent);
-//            os2.writeObject(dateEvent);
-//            os2.close();
-//            oos.close();
-//            fos.close();
+//            if(eventForDay.size() > 0){
+//                showMeEvents.setText("Event for " + searchingDate + "\n");
+//                for (String s : eventForDay) {
+//                    showMeEvents.appendText(s + "\n");
+//                }
+//            }else {
+//                showMeEvents.setText("No events in this day. (" + searchingDate + ")");
+//            }
 //
-//        } catch (IOException e) {
+//
+//
+//            if(todayEvents.size() > 0){
+//                showMeEvents.appendText("\n" + "Today: \n");
+//                for (String todayEvent : todayEvents) {
+//                    showMeEvents.appendText(todayEvent + "\n");
+//                }
+//            }
+//
+//
+//        }catch (Exception e){
 //            reminderMessage.setText(e.getMessage());
 //        }
 
-//        for (String s : dateEvent.keySet()) {
-//            reminderMessage.setText("Date: " + "\n" + s + "Reminder: " + "\n" + dateEvent.get(s));
-//        }
 
+
+//        clearTextFields();
 
 
 
     }
+
+    private void load(String todayDate, String searchingDate, File selectedFile) {
+
+        text = "";
+
+        try(BufferedReader br = new BufferedReader(new FileReader(selectedFile))){
+
+
+            String line = br.readLine();
+            while (line != null){
+                text += line;
+                text += '\n';
+                line = br.readLine();
+            }
+//            for (int i = 0; (line = br.readLine()) != null ; i++) {
+
+//                if(i % 2 == 0){
+//                    showMeEvents.appendText(line + "\n");
+//                    if (line.equals(searchingDate)){
+//                        line = br.readLine();
+//                        eventForDay.add(line);
+//                        i++;
+//                    }
+
+//                    if(line.equals(todayDate)){
+//                        line = br.readLine();
+//                        todayEvents.add(line);
+//                        i++;
+//                    }
+
+//                }
+//            }
+
+
+
+
+
+        }catch (Exception e){
+            reminderMessage.setText(e.getMessage());
+        }
+
+    }
+
 
     private String catcOnlyFileName(String str) {
         String regex = "[^\\/]+";
@@ -157,75 +253,276 @@ public class Controller {
 
 
     public void searchForEvent(ActionEvent actionEvent) throws IOException {
-
-
-        FileChooser ch = new FileChooser();
-        File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
-        String searchingDate = getDateStr(datePick);
+//          String debug = "";
 
         Date today = new Date();
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
-        String todayDate = date_format.format(today);
-        Map dateEvent = new HashMap();
+        todayDate = date_format.format(today);
+        searchingDate = getDateStr(datePick);
+         List<String> datesAndEvents = Arrays.asList(text.split("\n"));
 
-        Map<String, String> events = new HashMap<String, String>();
-        Properties properties = new Properties();
-        properties.load(new FileInputStream(selectedFile));
+        for (int i = 0; i < datesAndEvents.size(); i++) {
+            if(i % 2 == 0){
+//                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
+//                showMeEvents.appendText("Events for " + searchingDate + "\n");
+                if(datesAndEvents.get(i).equals(searchingDate)){
+                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
+//                    eventForDay.add(datesAndEvents.get(i + 1));
+                }
 
-        for (String key : properties.stringPropertyNames()) {
-            events.put(key, properties.get(key).toString());
+//                showMeEvents.appendText("\nToday you have following events: \n");
+//                if(datesAndEvents.get(i).equals(todayDate)){
+////                    todayEvents.add(datesAndEvents.get(i + 1));
+//                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
+//                }
+            }
+
         }
 
-        searchInMapForEvent(searchingDate, todayDate, events);
-        searchInMapForEventToday(todayDate, todayDate, events);
-
-//
-//            searchInMapForEvent(todayDate, todayDate, dateEvent);
-
-//        reminderMessage.setText(String.valueOf(events));
 
 
-//        try(FileInputStream fis = new FileInputStream(selectedFile);
-//        ObjectInputStream ois = new ObjectInputStream(fis)) {
-//
-//
-//
-//
-//            dateEvent = (Map)ois.readObject();
-//
-//            searchInMapForEvent(searchingDate, todayDate, dateEvent);
-//
-//            searchInMapForEvent(todayDate, todayDate, dateEvent);
-//
-//
-//
-//        } catch (IOException e) {
-//            reminderMessage.setText(e.getMessage());
-//        } catch (ClassNotFoundException e) {
-//            reminderMessage.setText(e.getMessage());
+
+
+
+
+//            if(eventForDay.size() > 0){
+//            showMeEvents.setText("Event for " + searchingDate + "\n");
+//            for (String s : eventForDay) {
+//                showMeEvents.appendText(s + "\n");
+//            }
+//        }else {
+//            showMeEvents.setText("No events in this day. (" + searchingDate + ")");
 //        }
 //
 //
-//        reminderMessage.setText(String.valueOf(dateEvent));
+//
+//        if(todayEvents.size() > 0){
+//            showMeEvents.appendText("\n" + "Today: \n");
+//            for (String todayEvent : todayEvents) {
+//                showMeEvents.appendText(todayEvent + "\n");
+//            }
+//        }
+
+
+//        if(i % 2 == 0){
+//                    showMeEvents.appendText(line + "\n");
+//                    if (line.equals(searchingDate)){
+//                        line = br.readLine();
+//                        eventForDay.add(line);
+//                        i++;
+//                    }
+
+//                    if(line.equals(todayDate)){
+//                        line = br.readLine();
+//                        todayEvents.add(line);
+//                        i++;
+//                    }
+
+
+//        if(eventForDay.size() > 0){
+//            showMeEvents.setText("Event for " + searchingDate + "\n");
+//            for (String s : eventForDay) {
+//                showMeEvents.appendText(s + "\n");
+//            }
+//        }else {
+//            showMeEvents.setText("No events in this day. (" + searchingDate + ")");
+//        }
+//
+//
+//
+//        if(todayEvents.size() > 0){
+//            showMeEvents.appendText("\n" + "Today: \n");
+//            for (String todayEvent : todayEvents) {
+//                showMeEvents.appendText(todayEvent + "\n");
+//            }
+//        }
+
+//        FileChooser ch = new FileChooser();
+//        File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
+//
+//        Date today = new Date();
+//        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+//        todayDate = date_format.format(today);
+//        searchingDate = getDateStr(datePick);
+
+
+//        FileChooser ch = new FileChooser();
+//        File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
+//        String searchingDate = getDateStr(datePick);
+//
+//        Date today = new Date();
+//        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+//        String todayDate = date_format.format(today);
+//
+//
+//        Map<String, List<String>> events = new HashMap<>();
+//        Properties properties = new Properties();
+//        properties.load(new FileInputStream(selectedFile));
+//
+//        for (String key : properties.stringPropertyNames()) {
+//            events.put(key, Arrays.asList(properties.get(key).toString()));
+//        }
+
+//        searchingDate = getDateStr(datePick);
+
+
+//        if(events.containsKey(searchingDate)){
+//            datePick.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+//            datePick.setStyle("-fx-background-color: red;");
+//        }else {
+//            datePick.setStyle("-fx-background-color: #6495ED");
+//        }
+//        searchInMapForEvent(searchingDate, events);
+//        searchInMapForEventToday(todayDate, todayDate, events);
+
 
 
     }
 
-    private void searchInMapForEvent(String searchingDate, String todayDate, Map<String, String> dateEvent) {
+
+    private void searchInMapForEvent(String searchingDate, Map<String, List<String>> dateEvent) {
+
+
+
+//        dateEvent.entrySet()
+//                  .stream()
+//                  .forEach(x -> {
+//                      showMeEvents.setText("Key: " + x.getKey());
+//                      showMeEvents.appendText("\n Value: " + x.getValue());
+//                  });
+
+
+
+
+//        dateEvent.entrySet().stream().
+//                filter(x -> x.getKey().contains(searchingDate))
+//                .forEach(s -> {
+//                    showMeEvents.appendText("You have event for this day: \n" + s.getValue());
+//                });
+
+        datePick.setDayCellFactory(dayCellFactory);
+
         if(dateEvent.containsKey(searchingDate)){
             showMeEvents.appendText("You have event for this day: " + searchingDate + "\n");
 //            showMeEvents.appendText("Today " +todayDate + " your event:\n");
-            showMeEvents.appendText((String) dateEvent.get(searchingDate) + "\n\n");
+            showMeEvents.appendText( removeBrackets(dateEvent.get(searchingDate).toString()) + "\n\n");
         }
     }
 
 
-    private void searchInMapForEventToday(String today, String todayDate, Map<String, String> dateEvent) {
+    private void searchInMapForEventToday(String today, String todayDate, Map<String, List<String>> dateEvent) {
         if(dateEvent.containsKey(today)){
             showMeEvents.appendText("Events for today: " + today + "\n");
 //            showMeEvents.appendText("Today " +todayDate + " your event:\n");
-            showMeEvents.appendText((String) dateEvent.get(today) + "\n\n");
+            showMeEvents.appendText( removeBrackets(dateEvent.get(today).toString()) + "\n\n");
         }
+    }
+
+
+    public void clearTextFields(){
+        showMeEvents.clear();
+        reminderMessage.clear();
+        datePick.setStyle("-fx-background-color: #6495ED");
+    }
+
+
+    final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+        public DateCell call(final DatePicker datePicker) {
+            return new DateCell() {
+                @Override public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    for (String s : events.keySet()) {
+
+                        if (MonthDay.from(item).equals(s)) {
+                            setTooltip(new Tooltip("Happy Birthday!"));
+                            setStyle("-fx-background-color: #ff4444;");
+                        }
+                    }
+
+
+
+//                    if (item.equals(LocalDate.now().plusDays(1))) {
+//                        // Tomorrow is too soon.
+//                        setDisable(true);
+//                    }
+                }
+            };
+        }
+    };
+
+
+    public void moveTextLeft(ActionEvent actionEvent) {
+        String[] message = showMeEvents.getText().split("\n");
+        String messageForCopy = "";
+        for (String s : message) {
+            //reminderMessage.appendText(removeBrackets(s) + "\n");
+            messageForCopy += s + "\n";
+        }
+
+        reminderMessage.setText(removeBrackets(messageForCopy));
+//        message[1] = message[1].replace('[', ' ');
+//        message[1] = message[1].replace(']', ' ');
+
+    }
+
+
+    public String removeBrackets(String str){
+        str = str.replace('[', ' ')
+                 .replace(']', ' ')
+                 .replace("null", " ")
+                 .trim();
+
+        return  str;
+    }
+
+    public void showAllNotes(ActionEvent actionEvent) {
+
+          List<String> allRecords = Arrays.asList(text.split("\n"));
+
+        for (int i = 0; i < allRecords.size(); i++) {
+            showMeEvents.appendText(allRecords.get(i)+ "\n");
+            if(i % 2 != 0){
+                showMeEvents.appendText("\n");
+            }
+        }
+
+//        for (String allRecord : allRecords) {
+//            showMeEvents.appendText(allRecord + "\n");
+//        }
+
+//        for (Map.Entry<String, List<String>> stringListEntry : events.entrySet()) {
+//            //showMeEvents.appendText(stringListEntry.getKey() + "\n" + stringListEntry.getValue() + "\n");
+//            for (List<String> strings : events.values()) {
+//
+//                for (String string : strings) {
+//                    if (skipEmptyNotes(stringListEntry, strings, string)) continue;
+//                    showMeEvents.appendText(stringListEntry.getKey() + "\n" + removeBrackets(strings.toString()) + "\n\n");
+//                }
+////
+//            }
+//        }
+
+
+    }
+
+    private boolean skipEmptyNotes(Map.Entry<String, List<String>> stringListEntry, List<String> strings, String string) {
+        if(stringListEntry.getKey().isEmpty() || strings.isEmpty()){
+            return true;
+        }
+
+        if(stringListEntry.getKey().equals("[null]") || string.equals("[null]")){
+            return true;
+        }
+
+        if(stringListEntry.getKey().equals("") || string.equals("")){
+            return true;
+       }
+
+        if (stringListEntry.getKey().equals("[]") || string.equals("[]")){
+            return true;
+        }
+        return false;
     }
 }
 
