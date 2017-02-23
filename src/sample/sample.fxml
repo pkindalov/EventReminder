@@ -6,16 +6,21 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <DatePicker fx:id="datePick" layoutX="36.0" layoutY="54.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" onMouseEntered="#statusClear" promptText="Choose Date" showWeekNumbers="true" />
-      <TextArea fx:id="reminderMessage" layoutX="35.0" layoutY="86.0" onMouseEntered="#statusClear" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
-      <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="35.0" layoutY="297.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
-      <Button fx:id="searchEvent" layoutX="105.0" layoutY="297.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
-      <TextArea fx:id="showMeEvents" layoutX="294.0" layoutY="53.0" onMouseEntered="#statusClear" prefHeight="232.0" prefWidth="290.0" promptText="No events" wrapText="true" />
-      <Button fx:id="loadDatabase" layoutX="35.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadDatabase" prefWidth="198.0" text="Load Database" />
-      <Button fx:id="moveTextLeft" layoutX="245.0" layoutY="112.0" mnemonicParsing="false" onAction="#moveTextLeft" prefHeight="26.0" prefWidth="39.0" text="&lt;-" />
-      <Button fx:id="showAllNotes" layoutX="294.0" layoutY="297.0" mnemonicParsing="false" onAction="#showAllNotes" text="Show All Notes" />
-      <Label fx:id="lblStatus" layoutX="294.0" layoutY="9.0" prefHeight="36.0" prefWidth="290.0" wrapText="true" />
+      <DatePicker fx:id="datePick" layoutX="14.0" layoutY="101.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" onMouseEntered="#statusClear" promptText="Choose Date" showWeekNumbers="true" />
+      <TextArea fx:id="reminderMessage" layoutX="13.0" layoutY="179.0" onMouseClicked="#checked" onMouseEntered="#statusClear" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
+      <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="13.0" layoutY="415.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
+      <Button fx:id="searchEvent" layoutX="14.0" layoutY="494.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />
+      <TextArea fx:id="showMeEvents" layoutX="272.0" layoutY="178.0" onMouseEntered="#statusClear" prefHeight="200.0" prefWidth="304.0" promptText="No events" wrapText="true" />
+      <Button fx:id="loadDatabase" layoutX="13.0" layoutY="38.0" mnemonicParsing="false" onAction="#loadDatabase" prefWidth="198.0" text="Load Database" />
+      <Button fx:id="moveTextLeft" layoutX="223.0" layoutY="247.0" mnemonicParsing="false" onAction="#moveTextLeft" prefHeight="26.0" prefWidth="39.0" text="&lt;-" />
+      <Button fx:id="showAllNotes" layoutX="272.0" layoutY="494.0" mnemonicParsing="false" onAction="#showAllNotes" text="Show All Notes" />
+      <Label fx:id="lblStatus" alignment="TOP_CENTER" layoutX="305.0" layoutY="15.0" prefHeight="111.0" prefWidth="279.0" wrapText="true" />
+      <Label fx:id="lblStep1" layoutX="8.0" layoutY="14.0" text="1.Click Load Database and choice base file" wrapText="true" />
+      <Label fx:id="lblStep2" layoutX="13.0" layoutY="76.0" text="2.Choose date for search or adding event" wrapText="true" />
+      <Label fx:id="lblStep3" layoutX="14.0" layoutY="133.0" prefHeight="36.0" prefWidth="562.0" text="3.Enter record in left window if you wish to add event or just skip this step if you search" wrapText="true" />
+      <Label fx:id="lblStep4" layoutX="13.0" layoutY="382.0" prefHeight="36.0" prefWidth="562.0" text="4.Click Save if you wish to add event or make new base file otherwise skip this step" wrapText="true" />
+      <Label fx:id="lblStep5" layoutX="14.0" layoutY="449.0" prefHeight="36.0" prefWidth="562.0" text="5.Click next button to search for event by selected date or click on Show All Notes to see all notes added to this moment" wrapText="true" />
    </children>
 </AnchorPane>
