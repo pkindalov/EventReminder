@@ -35,6 +35,11 @@ public class Controller {
     public Button moveTextLeft;
     public Button showAllNotes;
     public Label lblStatus;
+    public Label lblStep2;
+    public Label lblStep3;
+    public Label lblStep4;
+    public Label lblStep5;
+    public Label lblStep1;
     Multimap<String, List<String>> database;
     List<String> eventForDay = new ArrayList<>();
     List<String> todayEvents = new ArrayList<>();
@@ -43,7 +48,7 @@ public class Controller {
 
     public void writeOnFile(ActionEvent actionEvent) {
         String date = getDateStr(datePick);
-        String message = reminderMessage.getText();
+        String message = reminderMessage.getText().replace("\n", "").replace("\r", "");
         if(date.equals("") || date.equals(null)){
             reminderMessage.setText("First choose date from datepicker");
         }
@@ -72,6 +77,8 @@ public class Controller {
 
 
 
+        clearLblSteps(lblStep4);
+        writeCheckSymbol(lblStep4);
 
 
 
@@ -106,6 +113,9 @@ public class Controller {
 
 
     public void loadDatabase(ActionEvent actionEvent) throws IOException {
+
+        clearLblSteps(lblStep1);
+        writeCheckSymbol(lblStep1);
 
 
         FileChooser ch = new FileChooser();
@@ -172,6 +182,16 @@ public class Controller {
 
     }
 
+    private void writeCheckSymbol(Label label) {
+        int checkSign = 10004;
+        label.setText(Character.toString((char)checkSign) + " Done");
+
+    }
+
+
+
+
+
     private void load(File selectedFile) {
 
         text = "";
@@ -182,8 +202,11 @@ public class Controller {
 
             String line = br.readLine();
             while (line != null){
-                text += line;
-                text += '\n';
+                if(!line.equals(" ")){
+                    text += line;
+                    text += '\n';
+                }
+
                 line = br.readLine();
             }
 
@@ -253,6 +276,9 @@ public class Controller {
 
     public void getDate(ActionEvent actionEvent) {
 
+        clearLblSteps(lblStep2);
+        writeCheckSymbol(lblStep2);
+
         try{
             LocalDate localDate = datePick.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
@@ -275,10 +301,30 @@ public class Controller {
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
         todayDate = date_format.format(today);
         searchingDate = getDateStr(datePick);
-         List<String> datesAndEvents = Arrays.asList(text.split("\n"));
+         List<String> datesAndEvents = new LinkedList<>(Arrays.asList(text.split("\n")));
+//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
+
+
+
+
+
+        for (int i = 0; i < datesAndEvents.size(); i++) {
+
+
+            if(datesAndEvents.get(i).equals("") || datesAndEvents.get(i).equals(" ") || datesAndEvents.get(i).equals(null)){
+
+                for (int j = 0; j < 2; j++) {
+                    datesAndEvents.remove(i);
+                }
+
+            }
+        }
+        String debug = "";
+//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
 
          try{
              for (int i = 0; i < datesAndEvents.size(); i++) {
+
                  if(i % 2 == 0){
 //                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
 //                showMeEvents.appendText("Events for " + searchingDate + "\n");
@@ -306,6 +352,10 @@ public class Controller {
          }catch (Exception e){
              lblStatus.setText("You must first load base from button Load Database");
          }
+
+
+         clearLblSteps(lblStep5);
+         writeCheckSymbol(lblStep5);
 
 
 
@@ -512,6 +562,10 @@ public class Controller {
             }
         }
 
+
+        clearLblSteps(lblStep5);
+        writeCheckSymbol(lblStep5);
+
 //        for (String allRecord : allRecords) {
 //            showMeEvents.appendText(allRecord + "\n");
 //        }
@@ -552,6 +606,15 @@ public class Controller {
 
     public void statusClear(MouseEvent mouseEvent) {
         lblStatus.setText("");
+    }
+
+    private void clearLblSteps(Label label){
+        label.setText("");
+    }
+
+    public void checked(MouseEvent inputMethodEvent) {
+        clearLblSteps(lblStep3);
+        writeCheckSymbol(lblStep3);
     }
 }
 
