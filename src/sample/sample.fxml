@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <DatePicker fx:id="datePick" layoutX="14.0" layoutY="129.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" onMouseEntered="#statusClear" promptText="Choose Date" showWeekNumbers="true" />
+      <DatePicker fx:id="datePick" layoutX="14.0" layoutY="129.0" onAction="#getDate" onInputMethodTextChanged="#clearTextFields" onMouseClicked="#clearTextFields" onMouseEntered="#statusClear" onMouseExited="#checkEventTextLength" promptText="Choose Date" showWeekNumbers="true" />
       <TextArea fx:id="reminderMessage" layoutX="13.0" layoutY="207.0" onMouseClicked="#checkEventTextLength" onMouseEntered="#statusClear" onMouseExited="#checkEventTextLength" prefHeight="200.0" prefWidth="198.0" promptText="Enter your reminder message" wrapText="true" />
       <Button fx:id="btnWriteOnFile" alignment="CENTER" layoutX="13.0" layoutY="443.0" mnemonicParsing="false" onAction="#writeOnFile" prefHeight="26.0" prefWidth="65.0" text="Save" textAlignment="CENTER" />
       <Button fx:id="searchEvent" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#searchForEvent" prefHeight="26.0" prefWidth="129.0" text="Search Event" />

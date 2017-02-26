@@ -612,13 +612,21 @@ public class Controller {
         label.setText("");
     }
 
-    public void checked(MouseEvent inputMethodEvent) {
-        clearLblSteps(lblStep3);
-        writeCheckSymbol(lblStep3);
-    }
+//    public void checked(MouseEvent inputMethodEvent) {
+//        clearLblSteps(lblStep3);
+//        writeCheckSymbol(lblStep3);
+//    }
 
     public void checkEventTextLength(MouseEvent mouseEvent) {
         String text = reminderMessage.getText();
+        String date = getDateStr(datePick);
+
+        if(date.length() > 0){
+            clearLblSteps(lblStep2);
+            writeCheckSymbol(lblStep2);
+        }else {
+            lblStep2.setText("2.Choose date for search or adding event");
+        }
 
         if(text.length() > 10){
             clearLblSteps(lblStep3);
