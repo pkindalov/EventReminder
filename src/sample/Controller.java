@@ -77,10 +77,6 @@ public class Controller {
 
 
 
-        clearLblSteps(lblStep4);
-        writeCheckSymbol(lblStep4);
-
-
 
     }
 
@@ -103,6 +99,9 @@ public class Controller {
 
             bw.close();
             fos.close();
+
+            clearLblSteps(lblStep4);
+            writeCheckSymbol(lblStep4);
 
 
         }catch (Exception e){
@@ -628,7 +627,7 @@ public class Controller {
             lblStep2.setText("2.Choose date for search or adding event");
         }
 
-        if(text.length() > 10){
+        if(text.length() > 10 && !text.equals("First choose date from datepicker")){
             clearLblSteps(lblStep3);
             writeCheckSymbol(lblStep3);
         }else {
