@@ -114,9 +114,6 @@ public class Controller {
 
     public void loadDatabase(ActionEvent actionEvent) throws IOException {
 
-        clearLblSteps(lblStep1);
-        writeCheckSymbol(lblStep1);
-
 
         FileChooser ch = new FileChooser();
         File selectedFile = ch.showOpenDialog(((Button)actionEvent.getSource()).getScene().getWindow());
@@ -212,6 +209,9 @@ public class Controller {
 
             br.close();
             lblStatus.setText("Database loaded successfully");
+
+            clearLblSteps(lblStep1);
+            writeCheckSymbol(lblStep1);
 //            for (int i = 0; (line = br.readLine()) != null ; i++) {
 
 //                if(i % 2 == 0){
