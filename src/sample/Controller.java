@@ -616,6 +616,19 @@ public class Controller {
         clearLblSteps(lblStep3);
         writeCheckSymbol(lblStep3);
     }
+
+    public void checkEventTextLength(MouseEvent mouseEvent) {
+        String text = reminderMessage.getText();
+
+        if(text.length() > 10){
+            clearLblSteps(lblStep3);
+            writeCheckSymbol(lblStep3);
+        }else {
+            lblStep3.setText("3.Enter record in left window if you wish to add event or just skip this step if you search");
+        }
+
+
+    }
 }
 
 
