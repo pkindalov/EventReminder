@@ -216,8 +216,10 @@ public class Controller {
             SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
             todayDate = date_format.format(today);
             searchingDate = getDateStr(datePick);
+            showMeEvents.setText("Events for today(" + todayDate + ")\n\n");
             search(todayDate);
-            datePick.getEditor().setText("Today(" + todayDate + ")");
+
+//            datePick.getEditor().setText(todayDate);
             //searchForEventToday();
 //            for (int i = 0; (line = br.readLine()) != null ; i++) {
 
@@ -295,6 +297,9 @@ public class Controller {
             SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
             todayDate = date_format.format(today);
             searchingDate = getDateStr(datePick);
+//
+//            Date datepick = new Date(datePick.getValue().toEpochDay());
+            showMeEvents.setText("Events for today(" + searchingDate + ")\n\n");
             search(searchingDate);
         }catch (Exception e){
             lblStatus.setText(e.getMessage());
