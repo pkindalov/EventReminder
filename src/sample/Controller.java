@@ -211,6 +211,14 @@ public class Controller {
 
             clearLblSteps(lblStep1);
             writeCheckSymbol(lblStep1);
+
+            Date today = new Date();
+            SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+            todayDate = date_format.format(today);
+            searchingDate = getDateStr(datePick);
+            search(todayDate);
+            datePick.getEditor().setText("Today(" + todayDate + ")");
+            //searchForEventToday();
 //            for (int i = 0; (line = br.readLine()) != null ; i++) {
 
 //                if(i % 2 == 0){
@@ -282,9 +290,17 @@ public class Controller {
             LocalDate localDate = datePick.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
+
+            Date today = new Date();
+            SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+            todayDate = date_format.format(today);
+            searchingDate = getDateStr(datePick);
+            search(searchingDate);
         }catch (Exception e){
             lblStatus.setText(e.getMessage());
         }
+
+
 
         //        reminderMessage.setText(localDate + "\n" + instant + "\n" + date);
         //System.out.println(localDate + "\n" + instant + "\n" + date);
@@ -294,67 +310,14 @@ public class Controller {
 
 
     public void searchForEvent(ActionEvent actionEvent) throws IOException {
-//          String debug = "";
+        reminderMessage.setText("");
 
         Date today = new Date();
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
         todayDate = date_format.format(today);
         searchingDate = getDateStr(datePick);
-         List<String> datesAndEvents = new LinkedList<>(Arrays.asList(text.split("\n")));
-//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
 
-
-
-
-
-        for (int i = 0; i < datesAndEvents.size(); i++) {
-
-
-            if(datesAndEvents.get(i).equals("") || datesAndEvents.get(i).equals(" ") || datesAndEvents.get(i).equals(null)){
-
-                for (int j = 0; j < 2; j++) {
-                    datesAndEvents.remove(i);
-                }
-
-            }
-        }
-        String debug = "";
-//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
-
-         try{
-             for (int i = 0; i < datesAndEvents.size(); i++) {
-
-                 if(i % 2 == 0){
-//                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
-//                showMeEvents.appendText("Events for " + searchingDate + "\n");
-                     if(datesAndEvents.get(i).equals(searchingDate)){
-                         showMeEvents.appendText("-" + datesAndEvents.get(i + 1) + "\n\n");
-//                    eventForDay.add(datesAndEvents.get(i + 1));
-                     }
-
-//                showMeEvents.appendText("\nToday you have following events: \n");
-//                if(datesAndEvents.get(i).equals(todayDate)){
-////                    todayEvents.add(datesAndEvents.get(i + 1));
-//                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
-//                }
-                 }
-
-             }
-
-
-             if(!showMeEvents.getText().isEmpty()){
-                 lblStatus.setText("Events fonded");
-             }else {
-                 lblStatus.setText("Nothing found");
-             }
-
-         }catch (Exception e){
-             lblStatus.setText("You must first load base from button Load Database");
-         }
-
-
-         clearLblSteps(lblStep5);
-         writeCheckSymbol(lblStep5);
+        search(searchingDate);
 
 
 
@@ -452,6 +415,125 @@ public class Controller {
 
 
     }
+
+    private void search(String todayDate) {
+
+        List<String> datesAndEvents = new LinkedList<>(Arrays.asList(text.split("\n")));
+//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
+
+
+        for (int i = 0; i < datesAndEvents.size(); i++) {
+
+
+            if(datesAndEvents.get(i).equals("") || datesAndEvents.get(i).equals(" ") || datesAndEvents.get(i).equals(null)){
+
+                for (int j = 0; j < 2; j++) {
+                    datesAndEvents.remove(i);
+                }
+
+            }
+        }
+
+//         datesAndEvents.removeIf(str -> str == null || "".equals(str) || " ".equals(str));
+
+        try{
+            for (int i = 0; i < datesAndEvents.size(); i++) {
+
+                if(i % 2 == 0){
+//                showMeEvents.appendText("On date " + searchingDate + "you have: \n");
+//                showMeEvents.appendText("Events for " + searchingDate + "\n");
+                    if(datesAndEvents.get(i).equals(todayDate)){
+                        showMeEvents.appendText("-" + datesAndEvents.get(i + 1) + "\n\n");
+//                    eventForDay.add(datesAndEvents.get(i + 1));
+                    }
+
+//                showMeEvents.appendText("\nToday you have following events: \n");
+//                if(datesAndEvents.get(i).equals(todayDate)){
+////                    todayEvents.add(datesAndEvents.get(i + 1));
+//                    showMeEvents.appendText(datesAndEvents.get(i + 1) + "\n");
+//                }
+                }
+
+            }
+
+
+            if(!showMeEvents.getText().isEmpty()){
+                lblStatus.setText("Events fonded");
+            }else {
+                lblStatus.setText("Nothing found");
+            }
+
+        }catch (Exception e){
+            lblStatus.setText("You must first load base from button Load Database");
+        }
+
+
+        clearLblSteps(lblStep5);
+        writeCheckSymbol(lblStep5);
+    }
+
+
+
+
+
+    ////////////////////////////////////////////////
+
+
+
+//    private void searchForEventToday(){
+//        Date today = new Date();
+//        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+//        todayDate = date_format.format(today);
+//        searchingDate = getDateStr(datePick);
+//        List<String> datesAndEvents = new LinkedList<>(Arrays.asList(text.split("\n")));
+//
+//        for (int i = 0; i < datesAndEvents.size(); i++) {
+//            if(datesAndEvents.get(i).equals("") || datesAndEvents.get(i).equals(" ") || datesAndEvents.get(i).equals(null)){
+//                for (int j = 0; j < 2; j++) {
+//                    datesAndEvents.remove(i);
+//                }
+//
+//            }
+//        }
+//
+//        try{
+//            for (int i = 0; i < datesAndEvents.size(); i++) {
+//
+//                if(i % 2 == 0){
+//                    if(datesAndEvents.get(i).equals(todayDate)){
+//                        showMeEvents.appendText("-" + datesAndEvents.get(i + 1) + "\n\n");
+//                    }
+//
+//                }
+//
+//            }
+//
+//
+//            if(!showMeEvents.getText().isEmpty()){
+//                lblStatus.setText("Events fonded");
+//            }else {
+//                lblStatus.setText("Nothing found");
+//            }
+//
+//        }catch (Exception e){
+//            lblStatus.setText("You must first load base from button Load Database");
+//        }
+//
+//
+//        clearLblSteps(lblStep5);
+//        writeCheckSymbol(lblStep5);
+//    }
+
+
+
+
+
+    ///////////////////////////////////////////////
+
+
+
+
+
 
 
     private void searchInMapForEvent(String searchingDate, Map<String, List<String>> dateEvent) {
